@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   bool _isLoading = true;
   String? _errorMessage;
 
-  // Implement debouncing for API call
+  // DEBOUNCING
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -70,14 +70,11 @@ class _HomePageState extends State<HomePage> {
 
   void _selectSearchResult(SearchResultItem item) {
     setState(() {
-      // 1. Update the criteria
       _queryData.searchType = item.searchType;
       _queryData.searchQuery = item.searchQuery;
 
-      // 2. Update the text field for visual confirmation
       _searchController.text = item.valueToDisplay;
 
-      // 3. Clear autocomplete results
       _autocompleteResults = [];
     });
   }
@@ -98,12 +95,10 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         if (isCheckIn) {
           _queryData.checkIn = picked;
-          // Ensure checkout is after checkin
           if (_queryData.checkOut.isBefore(picked)) {
             _queryData.checkOut = picked.add(const Duration(days: 1));
           }
         } else {
-          // Ensure checkout is not before checkin
           if (picked.isAfter(_queryData.checkIn)) {
             _queryData.checkOut = picked;
           }
@@ -164,7 +159,6 @@ class _HomePageState extends State<HomePage> {
 
   void _handleFocusChange() {
     setState(() {
-      // 3. Check the status using hasFocus
       _isFocused = _inputFocusNode.hasFocus;
     });
   }
@@ -174,7 +168,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _searchController.addListener(_onSearchChanged);
     _inputFocusNode.addListener(_handleFocusChange);
-    // Use Future.microtask to delay fetch until build context is available
+
     Future.microtask(() => _fetchProperties());
   }
 
@@ -321,7 +315,6 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Search Input Field
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: width * 0.05,
@@ -357,7 +350,7 @@ class _HomePageState extends State<HomePage> {
         ),
 
         Divider(height: 1, indent: 0, endIndent: 0),
-        // Date Pickers
+
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: width * 0.05,
@@ -419,7 +412,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
 
-        // Search Button
         ElevatedButton.icon(
           onPressed: _navigateToResults,
           label: const Padding(
@@ -483,7 +475,6 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
-        // Use StatefulBuilder to manage the state of the counters inside the sheet
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
@@ -506,7 +497,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const Divider(height: 20),
 
-                  // Content provided by the user
                   Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -552,7 +542,6 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      // Apply changes to the main widget state and close
                       setState(() {});
                       Navigator.pop(context);
                     },

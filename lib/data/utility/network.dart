@@ -4,7 +4,6 @@ import 'package:mytravaly/data/utility/constants.dart';
 import 'package:http/http.dart' as http;
 
 class CustomNetworkUtility {
-  /// Base headers required for the Mytravaly API.
   static Map<String, String> baseHeaders(String? visTok) {
     if (visTok == null) {
       return {'authtoken': authToken(), 'Content-Type': 'application/json'};
@@ -17,7 +16,6 @@ class CustomNetworkUtility {
     }
   }
 
-  /// Performs a POST request to a specific endpoint.
   static Future<http.Response> post(
     String endpoint,
     Map<String, dynamic> body,
@@ -33,7 +31,7 @@ class CustomNetworkUtility {
       );
       return response;
     } catch (e) {
-      // In a real app, you would log this error.
+      // SOMETHING I WOULD LOG IN A REAL APP
       debugPrint('Network error during POST to $endpoint: $e');
       throw Exception('Failed to connect to the network.');
     }

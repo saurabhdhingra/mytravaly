@@ -43,7 +43,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
             _scrollController.position.maxScrollExtent &&
         _hasMore &&
         !_isLoading) {
-      // User reached the end, load next page (if available)
+
       _fetchResults();
     }
   }
@@ -51,7 +51,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   Future<void> _fetchResults({bool isInitial = false}) async {
     if (_isLoading) return;
 
-    // Reset query for initial load
+
     if (isInitial) {
       _currentQuery.rid = 0;
       _properties.clear();
@@ -59,7 +59,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
     }
 
     if (!_hasMore) {
-      // No more data to load
+
       return;
     }
 
@@ -89,9 +89,9 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
         setState(() {
           _properties.addAll(newProperties);
           _isLoading = false;
-          _currentQuery.rid += 1; // Increment RID for next page
+          _currentQuery.rid += 1; // INCREMENTING RID
 
-          // Basic pagination check: if we got less than the limit, assume no more pages
+          // PAGINATION CHECK
           if (newProperties.length < _currentQuery.limit) {
             _hasMore = false;
           }

@@ -10,10 +10,9 @@ class PropertyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    // --- Data Retrieval and Calculations (using real data) ---
+
     final overallRating = property.googleReview?.overallRating ?? 0.0;
 
-    // 1. Get real review count from GoogleReview model
     final reviewCountText =
         overallRating > 0
             ? '${property.googleReview?.totalUserRating ?? 0} Reviews'
@@ -21,19 +20,16 @@ class PropertyCard extends StatelessWidget {
 
     final starRating = property.propertyStar.clamp(1, 5);
 
-    // CRITICAL FIX: Use null-aware access to safely retrieve price details
-    final double safeMarkedAmount = property.markedPrice?.amount ?? 0.0;
-    final double safeMinAmount = property.propertyMinPrice?.amount ?? 0.0;
+    final double safeMarkedAmount = property.markedPrice.amount;
+    final double safeMinAmount = property.propertyMinPrice.amount ;
     final String safeMarkedDisplay =
-        property.markedPrice?.displayAmount ?? 'N/A';
+        property.markedPrice.displayAmount ;
     final String safeMinDisplay =
-        property.propertyMinPrice?.displayAmount ?? 'N/A';
+        property.propertyMinPrice.displayAmount ;
 
-    // 2. Get real location text from PropertyAddress model
     final locationText =
         '${property.propertyAddress?.city ?? 'City'}, ${property.propertyAddress?.country ?? 'Country'}';
 
-    // 3. Real Discount Calculation (based on markedPrice and propertyMinPrice)
     int discountPercentage = 0;
 
     if (safeMarkedAmount > 0 && safeMinAmount < safeMarkedAmount) {
@@ -41,11 +37,10 @@ class PropertyCard extends StatelessWidget {
           ((safeMarkedAmount - safeMinAmount) / safeMarkedAmount * 100).round();
     }
 
-    // 4. Offer price is the displayAmount from propertyMinPrice
+
     final offerPriceDisplay = safeMinDisplay;
 
     return Card(
-      // 1. Style: Transparent background, no borders/elevation
       color: Colors.transparent,
       elevation: 0,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: width * 0.04),
@@ -53,7 +48,6 @@ class PropertyCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: IntrinsicHeight(
-          // Use Row with Flexible/Expanded for 2:5 ratio layout
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -62,7 +56,6 @@ class PropertyCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: AspectRatio(
-                    // User's requested aspect ratio (taller/narrower)
                     aspectRatio: 0.5,
                     child: Image.network(
                       property.propertyImage,
@@ -85,14 +78,13 @@ class PropertyCard extends StatelessWidget {
 
               const SizedBox(width: 12),
 
-              // 5:5 Ratio - Content Column
               Flexible(
                 flex: 5,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 1. Property Name
+
                     Text(
                       property.propertyName,
                       style: TextStyle(
@@ -105,7 +97,7 @@ class PropertyCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
 
-                    // 2. Stars (Rounded Rating)
+
                     Row(
                       children: List.generate(
                         starRating,
@@ -118,11 +110,11 @@ class PropertyCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
 
-                    // 3. Actual Rating and Reviews Row
+
                     if (overallRating > 0)
                       Row(
                         children: [
-                          // Actual Rating in rounded container
+
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 6,
@@ -142,7 +134,7 @@ class PropertyCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          // Number of reviews (using real data)
+
                           Text(
                             reviewCountText,
                             style: TextStyle(
@@ -155,7 +147,7 @@ class PropertyCard extends StatelessWidget {
 
                     const SizedBox(height: 6),
 
-                    // 4. Location with Pin Icon (using real data)
+
                     Row(
                       children: [
                         Icon(
@@ -166,7 +158,7 @@ class PropertyCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
-                            locationText, // Now using real data
+                            locationText, 
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey.shade900,
@@ -194,7 +186,7 @@ class PropertyCard extends StatelessWidget {
 
                         if (discountPercentage > 0 && discountPercentage != 100)
                           Text(
-                            '$discountPercentage% off', // Now using real calculation
+                            '$discountPercentage% off',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -204,17 +196,16 @@ class PropertyCard extends StatelessWidget {
 
                         const SizedBox(height: 6),
 
-                        // 7. Marked Price (Slashed) and Offer Price (Conditional Slashed Price)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            // Marked Price (Slashed) - ONLY show if a discount exists
+            
                             if (discountPercentage > 0 &&
                                 discountPercentage != 100)
                               Text(
-                                safeMarkedDisplay, // Now using safe access
+                                safeMarkedDisplay, 
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey.shade900,
@@ -222,15 +213,15 @@ class PropertyCard extends StatelessWidget {
                                 ),
                               ),
 
-                            // Separator - ONLY show if a discount exists
+
                             if (discountPercentage > 0)
                               const SizedBox(width: 8),
 
-                            // Offer Price (always show the final price)
+             
                             Text(
                               discountPercentage != 100
                                   ? offerPriceDisplay
-                                  : safeMarkedDisplay, // Now using real propertyMinPrice data
+                                  : safeMarkedDisplay,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,

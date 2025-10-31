@@ -45,12 +45,10 @@ class PropertyService {
       }
     } catch (e) {
       debugPrint('Error in fetching properties: $e');
-      // Re-throw to be handled by the UI
       rethrow;
     }
   }
 
-  // Method for Search Autocomplete
   Future<List<SearchResultItem>> searchAutoComplete(
     String inputText,
     String visitorToken,
@@ -109,7 +107,6 @@ class PropertyService {
     }
   }
 
-  // Method to fetch Search Results
   Future<List<Property>> getSearchResultListOfHotels(
     SearchQueryData queryData,
     String visitorToken,
@@ -121,7 +118,6 @@ class PropertyService {
 
     try {
       final response = await CustomNetworkUtility.post(
-        // Replace with your actual baseUrl() implementation
         baseUrl(),
         payload,
         visitorToken,
@@ -140,12 +136,10 @@ class PropertyService {
           );
    
 
-          // Log the raw data if needed, but the error source (printing the Map 'item') is removed.
           log(response.body);
 
           final List<Property> hotelList =
               (jsonResponse['data']['arrayOfHotelList'] as List).map((item) {
-                // Safely cast item to the expected Map<String, dynamic> for fromJson
                 debugPrint("Checkpoint 4 : Inside the map function.");
                 final Map<String, dynamic> propertyJson =
                     item as Map<String, dynamic>;
@@ -155,7 +149,7 @@ class PropertyService {
           debugPrint(
             "Mapping complete. Returning list of ${hotelList.length} properties.",
           );
-          return hotelList; // Return the correctly parsed list
+          return hotelList; 
         } else {
           throw Exception(
             jsonResponse['message'] ??
@@ -168,7 +162,6 @@ class PropertyService {
         );
       }
     } catch (e) {
-      // Use kDebugMode check for printing stack trace if needed
       debugPrint('Error in fetching search results: $e');
       rethrow;
     }

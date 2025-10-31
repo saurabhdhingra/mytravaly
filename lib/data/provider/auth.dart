@@ -15,28 +15,23 @@ class AuthNotifier extends ChangeNotifier {
     _loadInitialToken();
   }
 
-  /// Loads the token from persistent storage when the app starts.
   void _loadInitialToken() {
     _visitorToken = _authService.getVisitorToken();
     _isLoading = false;
     notifyListeners();
   }
 
-  /// Updates the token after a successful registration.
   void setVisitorToken(String token) {
     _visitorToken = token;
     notifyListeners();
   }
 
-  /// Simulates a Google Sign-In and performs device registration.
   Future<void> signInAndRegister() async {
     _isLoading = true;
     notifyListeners();
 
-    // 1. Simulate Google Sign-In (Frontend-Only as requested)
-    await Future.delayed(const Duration(seconds: 1)); // Simulate delay
+    await Future.delayed(const Duration(seconds: 1)); 
 
-    // 2. Perform Device Registration
     final token = await _authService.registerDevice();
 
     if (token != null) {
@@ -47,15 +42,12 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
   
-  /// Logs the user out by clearing the token and resetting state.
   Future<void> signOut() async {
     _isLoading = true;
     notifyListeners();
     
-    // Clear the token from SharedPreferences
     await _authService.clearVisitorToken();
     
-    // Clear the in-memory token
     _visitorToken = null;
     
     _isLoading = false;

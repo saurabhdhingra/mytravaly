@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart'; // For date formatting
+import 'package:intl/intl.dart'; 
 
 class Address {
   final String? city;
@@ -36,7 +36,6 @@ class SearchResultItem {
   List<String> get searchQuery => searchArray.query;
 }
 
-// --- 4.2. Search Criteria Model ---
 
 class SearchQueryData {
   String searchType;
@@ -47,7 +46,7 @@ class SearchQueryData {
   int adults;
   int children;
   int limit;
-  int rid; // Used for pagination
+  int rid; 
   List<String> accommodation;
   List<String> arrayOfExcludedSearchType;
   String highPrice;
@@ -89,7 +88,6 @@ class SearchQueryData {
     "lowPrice": lowPrice,
   };
 
-  // Helper to create the initial default search criteria
   static SearchQueryData initial() {
     final now = DateTime.now();
     final tomorrow = now.add(const Duration(days: 1));

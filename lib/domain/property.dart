@@ -1,7 +1,7 @@
 class PriceDetails {
   final String displayAmount;
   final double amount;
-  final String? currencySymbol; // Added to capture currency symbol if needed
+  final String? currencySymbol; 
 
   PriceDetails({
     required this.displayAmount,
@@ -20,12 +20,11 @@ class PriceDetails {
 
 class GoogleReview {
   final double overallRating;
-  final int totalUserRating; // New field to capture total review count
+  final int totalUserRating; 
 
   GoogleReview({required this.overallRating, required this.totalUserRating});
 
   factory GoogleReview.fromJson(Map<String, dynamic> json) {
-    // Safely access nested structure
     final data = json['data'] as Map<String, dynamic>?;
 
     return GoogleReview(

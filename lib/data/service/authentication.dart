@@ -13,14 +13,13 @@ class AuthService {
 
   AuthService(this._prefs);
 
-  /// Registers the device and retrieves the visitor token.
+
   Future<String?> registerDevice() async {
-    // Dynamically fetch device data
     final deviceData = await DeviceUtility.getDeviceInfo(); 
 
     final payload = {
       "action": "deviceRegister",
-      "deviceRegister": deviceData, // Use the dynamically fetched data
+      "deviceRegister": deviceData, 
     };
 
     try {
@@ -47,18 +46,15 @@ class AuthService {
     }
   }
 
-  /// Saves the visitor token to SharedPreferences.
   Future<void> _saveVisitorToken(String token) async {
     await _prefs.setString(visitorTokenKey(), token);
     debugPrint('Visitor Token saved: $token');
   }
 
-  /// Retrieves the visitor token from SharedPreferences.
   String? getVisitorToken() {
     return _prefs.getString(visitorTokenKey());
   }
   
-  /// Deletes the visitor token from SharedPreferences.
   Future<void> clearVisitorToken() async {
     await _prefs.remove(visitorTokenKey());
     debugPrint('Visitor Token removed from storage.');

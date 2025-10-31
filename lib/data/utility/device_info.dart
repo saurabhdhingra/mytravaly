@@ -13,8 +13,9 @@ class DeviceUtility {
 
         log(deviceInfo.data.toString());
 
+        // USING DEFAULT DATA BECAUSE OF DISCREPANCIES IN ANDROID AND IOS DEVICE DATA STRUCTURES
         return {
-            "deviceModel":deviceInfo.data,
+            "deviceModel":"RMX3521",,
             "deviceFingerprint":"realme/RMX3521/RE54E2L1:13/RKQ1.211119.001/S.f1bb32-7f7fa_1:user/release-keys",
             "deviceBrand":"realme",
             "deviceId":"RE54E2L1",
@@ -25,7 +26,6 @@ class DeviceUtility {
         };
     } catch (e) {
       debugPrint("Could not fetch device info: $e");
-      // Fallback to structured mock data if plugin fails
        return {
             "deviceModel":"RMX3521",
             "deviceFingerprint":"realme/RMX3521/RE54E2L1:13/RKQ1.211119.001/S.f1bb32-7f7fa_1:user/release-keys",

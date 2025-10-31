@@ -10,7 +10,6 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  // Mock controllers as the inputs are dummy but required for a proper form setup
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -24,8 +23,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
-    // Listen to AuthNotifier for loading state changes
+
     final authNotifier = Provider.of<AuthNotifier>(context);
     final bool isLoading = authNotifier.isLoading;
     final Size screenSize = MediaQuery.of(context).size;
@@ -37,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Header
+    
               SizedBox(
                 width: width - 64,
                 child: FittedBox(
@@ -59,10 +57,8 @@ class _SignInPageState extends State<SignInPage> {
               ),
               SizedBox(height: screenSize.height * 0.08),
 
-              // --- Standard Login Form ---
               _buildStandardLoginForm(context, authNotifier, isLoading),
 
-              // --- Separator ---
               const SizedBox(height: 30),
               const Row(
                 children: [
@@ -82,11 +78,9 @@ class _SignInPageState extends State<SignInPage> {
               ),
               const SizedBox(height: 30),
 
-              // --- Google Sign In Button ---
               _buildGoogleSignInButton(authNotifier, isLoading),
 
               const SizedBox(height: 40),
-              // Instructions regarding the frontend-only requirement
               const Text(
                 'NOTE: Both login options use the same function to simulate sign-in/registration, fulfilling the device registration API requirement.',
                 textAlign: TextAlign.center,
@@ -110,7 +104,7 @@ class _SignInPageState extends State<SignInPage> {
   ) {
     return Column(
       children: [
-        // Email Field
+
         TextFormField(
           controller: _emailController,
           enabled: !isLoading,
@@ -120,7 +114,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ),
         const SizedBox(height: 20),
-        // Password Field
+
         TextFormField(
           controller: _passwordController,
           enabled: !isLoading,
@@ -131,13 +125,12 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ),
         const SizedBox(height: 30),
-        // Standard Login Button
+
         ElevatedButton(
           onPressed:
               isLoading
                   ? null
                   : () {
-                    // Trigger device registration/login for standard form
                     authNotifier.signInAndRegister();
                   },
           style: ElevatedButton.styleFrom(
