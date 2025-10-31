@@ -142,18 +142,21 @@ class _HomePageState extends State<HomePage> {
       _errorMessage = null;
     });
 
-    try {
-      final properties = await _propertyService.fetchProperties(visitorToken);
-      setState(() {
-        _properties = properties;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _errorMessage =
-            'Could not fetch hotels: ${e.toString().split(':')[1].trim()}';
-        _isLoading = false;
-      });
+    if (mounted) {
+      try {
+        final properties = await _propertyService.fetchProperties(visitorToken);
+
+        setState(() {
+          _properties = properties;
+          _isLoading = false;
+        });
+      } catch (e) {
+        setState(() {
+          _errorMessage =
+              'Could not fetch hotels: ${e.toString().split(':')[1].trim()}';
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -217,11 +220,6 @@ class _HomePageState extends State<HomePage> {
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     await authNotifier.signOut();
-
-                    // ignore: use_build_context_synchronously
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Logged out successfully!')),
-                    );
                   },
                   label: const Icon(Icons.logout, size: 24),
 
@@ -481,21 +479,20 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
                 top: 20,
-                left: 20,
-                right: 20,
+                left: 8,
+                right: 8,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     'Update Guests & Rooms',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+                      color: Colors.red.shade400,
                     ),
                   ),
-                  const Divider(height: 20),
 
                   Card(
                     elevation: 0,
@@ -508,14 +505,6 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Guests & Rooms',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Divider(),
                           _buildCounter(
                             'Rooms',
                             _queryData.rooms,
@@ -546,7 +535,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo,
+                      backgroundColor: Colors.red.shade400,
                       foregroundColor: Colors.white,
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
@@ -631,7 +620,7 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Icon(icon, size: 20, color: Colors.indigo),
+          child: Icon(icon, size: 20, color: Colors.red.shade400),
         ),
       ),
     );
