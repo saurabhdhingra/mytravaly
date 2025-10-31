@@ -15,8 +15,8 @@ class AuthNotifier extends ChangeNotifier {
     _loadInitialToken();
   }
 
-  void _loadInitialToken() {
-    _visitorToken = _authService.getVisitorToken();
+  void _loadInitialToken() async {
+    _visitorToken = await _authService.getVisitorToken();
     _isLoading = false;
     notifyListeners();
   }
@@ -30,7 +30,7 @@ class AuthNotifier extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 1)); 
+    await Future.delayed(const Duration(seconds: 1));
 
     final token = await _authService.registerDevice();
 
@@ -41,15 +41,15 @@ class AuthNotifier extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
-  
+
   Future<void> signOut() async {
     _isLoading = true;
     notifyListeners();
-    
+
     await _authService.clearVisitorToken();
-    
+
     _visitorToken = null;
-    
+
     _isLoading = false;
     notifyListeners();
   }

@@ -1,17 +1,19 @@
+// Auth Service
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:mytravaly/data/utility/constants.dart';
 import 'package:mytravaly/data/utility/device_info.dart';
 import 'package:mytravaly/data/utility/network.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AuthService {
-  final SharedPreferences _prefs;
+  final FlutterSecureStorage _storage;
 
-  AuthService(this._prefs);
+  AuthService(this._storage);
 
 
   Future<String?> registerDevice() async {
@@ -47,16 +49,19 @@ class AuthService {
   }
 
   Future<void> _saveVisitorToken(String token) async {
-    await _prefs.setString(visitorTokenKey(), token);
+    // Securely save the token using FlutterSecureStorage
+    await _storage.write(key: visitorTokenKey(), value: token);
     debugPrint('Visitor Token saved: $token');
   }
 
-  String? getVisitorToken() {
-    return _prefs.getString(visitorTokenKey());
+  Future<String?> getVisitorToken() async {
+    // Securely read the token using FlutterSecureStorage
+    return await _storage.read(key: visitorTokenKey());
   }
   
   Future<void> clearVisitorToken() async {
-    await _prefs.remove(visitorTokenKey());
+    // Securely delete the token using FlutterSecureStorage
+    await _storage.delete(key: visitorTokenKey());
     debugPrint('Visitor Token removed from storage.');
   }
 }

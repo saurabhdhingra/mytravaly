@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
 
   final SearchQueryData _queryData = SearchQueryData.initial();
   List<SearchResultItem> _autocompleteResults = [];
-  bool _isSearching = false;
 
   final PropertyService _propertyService = PropertyService();
   List<Property> _properties = [];
@@ -50,7 +49,6 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    setState(() => _isSearching = true);
     final visitorToken =
         Provider.of<AuthNotifier>(context, listen: false).visitorToken;
 
@@ -453,9 +451,6 @@ class _HomePageState extends State<HomePage> {
               title: Text(item.valueToDisplay),
               subtitle: Text("${item.address.city}, ${item.address.state}"),
               onTap: () {
-                setState(() {
-                  _isSearching = false;
-                });
                 _selectSearchResult(item);
               },
             );

@@ -43,14 +43,12 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
             _scrollController.position.maxScrollExtent &&
         _hasMore &&
         !_isLoading) {
-
       _fetchResults();
     }
   }
 
   Future<void> _fetchResults({bool isInitial = false}) async {
     if (_isLoading) return;
-
 
     if (isInitial) {
       _currentQuery.rid = 0;
@@ -59,7 +57,6 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
     }
 
     if (!_hasMore) {
-
       return;
     }
 
@@ -111,7 +108,6 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
