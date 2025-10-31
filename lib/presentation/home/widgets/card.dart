@@ -95,10 +95,10 @@ class PropertyCard extends StatelessWidget {
                     // 1. Property Name
                     Text(
                       property.propertyName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.grey.shade900,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -134,7 +134,7 @@ class PropertyCard extends StatelessWidget {
                             ),
                             child: Text(
                               overallRating.toStringAsFixed(1),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -145,9 +145,9 @@ class PropertyCard extends StatelessWidget {
                           // Number of reviews (using real data)
                           Text(
                             reviewCountText,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white,
+                              color: Colors.grey.shade900,
                             ),
                           ),
                         ],
@@ -158,18 +158,18 @@ class PropertyCard extends StatelessWidget {
                     // 4. Location with Pin Icon (using real data)
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.location_pin,
-                          color: Colors.white,
+                          color: Colors.grey.shade900,
                           size: 14,
                         ),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
                             locationText, // Now using real data
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white,
+                              color: Colors.grey.shade900,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -183,10 +183,10 @@ class PropertyCard extends StatelessWidget {
                       children: [
                         Text(
                           property.roomName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                            color: Colors.grey.shade900,
                           ),
                         ),
 
@@ -215,9 +215,9 @@ class PropertyCard extends StatelessWidget {
                                 discountPercentage != 100)
                               Text(
                                 safeMarkedDisplay, // Now using safe access
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.white,
+                                  color: Colors.grey.shade900,
                                   decoration: TextDecoration.lineThrough,
                                 ),
                               ),
@@ -231,10 +231,10 @@ class PropertyCard extends StatelessWidget {
                               discountPercentage != 100
                                   ? offerPriceDisplay
                                   : safeMarkedDisplay, // Now using real propertyMinPrice data
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: Colors.grey.shade900,
                               ),
                             ),
                           ],

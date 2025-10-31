@@ -119,10 +119,10 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
           'Search Results',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.grey.shade900,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey.shade900,
       ),
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: Colors.white,
       body:
           _errorMessage != null
               ? Center(

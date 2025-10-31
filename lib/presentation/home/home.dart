@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
     var height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,8 +211,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        backgroundColor: Colors.grey.shade900,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey.shade900,
         centerTitle: false,
         actions: [
           SizedBox(
@@ -292,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.grey.shade900,
                       ),
                     ),
                   ),
@@ -336,7 +336,7 @@ class _HomePageState extends State<HomePage> {
                   controller: _searchController,
                   cursorColor: Theme.of(context).colorScheme.secondary,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.grey.shade900,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
@@ -369,7 +369,7 @@ class _HomePageState extends State<HomePage> {
               Text(
                 "  -  ",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.grey.shade900,
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),
@@ -405,7 +405,7 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   "${_queryData.rooms == 1 ? "1 room" : "${_queryData.rooms} rooms"} · ${_queryData.adults == 1 ? "1 adult" : "${_queryData.adults} adults"} · ${_queryData.children == 1 ? "1 child" : "${_queryData.children} children"}",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.grey.shade900,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
@@ -589,7 +589,7 @@ class _HomePageState extends State<HomePage> {
           Text(
             DateFormat('dd MMM yyyy').format(date),
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.grey.shade900,
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
