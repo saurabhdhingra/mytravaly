@@ -34,8 +34,6 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
 
     // 1. Simulate Google Sign-In (Frontend-Only as requested)
-    // NOTE: In a real app, this is where you'd call
-    // GoogleSignIn().signIn() and get the user credentials.
     await Future.delayed(const Duration(seconds: 1)); // Simulate delay
 
     // 2. Perform Device Registration
@@ -45,6 +43,21 @@ class AuthNotifier extends ChangeNotifier {
       setVisitorToken(token);
     }
 
+    _isLoading = false;
+    notifyListeners();
+  }
+  
+  /// Logs the user out by clearing the token and resetting state.
+  Future<void> signOut() async {
+    _isLoading = true;
+    notifyListeners();
+    
+    // Clear the token from SharedPreferences
+    await _authService.clearVisitorToken();
+    
+    // Clear the in-memory token
+    _visitorToken = null;
+    
     _isLoading = false;
     notifyListeners();
   }

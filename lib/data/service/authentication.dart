@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -58,5 +56,11 @@ class AuthService {
   /// Retrieves the visitor token from SharedPreferences.
   String? getVisitorToken() {
     return _prefs.getString(visitorTokenKey());
+  }
+  
+  /// Deletes the visitor token from SharedPreferences.
+  Future<void> clearVisitorToken() async {
+    await _prefs.remove(visitorTokenKey());
+    debugPrint('Visitor Token removed from storage.');
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mytravaly/data/provider/auth.dart';
 import 'package:mytravaly/data/service/property.dart';
@@ -40,7 +39,10 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore && !_isLoading) {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        _hasMore &&
+        !_isLoading) {
       // User reached the end, load next page (if available)
       _fetchResults();
     }
@@ -48,7 +50,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
   Future<void> _fetchResults({bool isInitial = false}) async {
     if (_isLoading) return;
-    
+
     // Reset query for initial load
     if (isInitial) {
       _currentQuery.rid = 0;
@@ -66,7 +68,8 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
       if (isInitial) _errorMessage = null;
     });
 
-    final visitorToken = Provider.of<AuthNotifier>(context, listen: false).visitorToken;
+    final visitorToken =
+        Provider.of<AuthNotifier>(context, listen: false).visitorToken;
 
     if (visitorToken == null) {
       setState(() {
@@ -77,14 +80,17 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
     }
 
     try {
-      final newProperties = await _propertyService.getSearchResultListOfHotels(_currentQuery, visitorToken);
-      
+      final newProperties = await _propertyService.getSearchResultListOfHotels(
+        _currentQuery,
+        visitorToken,
+      );
+
       if (mounted) {
         setState(() {
           _properties.addAll(newProperties);
           _isLoading = false;
           _currentQuery.rid += 1; // Increment RID for next page
-          
+
           // Basic pagination check: if we got less than the limit, assume no more pages
           if (newProperties.length < _currentQuery.limit) {
             _hasMore = false;
@@ -104,45 +110,72 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Results'),
-        backgroundColor: Colors.pink,
+        title: const Text(
+          'Search Results',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.grey.shade900,
         foregroundColor: Colors.white,
       ),
-      body: _errorMessage != null
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Text(
-                  _errorMessage!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.red, fontSize: 18),
+      backgroundColor: Colors.grey.shade900,
+      body:
+          _errorMessage != null
+              ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Text(
+                    _errorMessage!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.red, fontSize: 18),
+                  ),
                 ),
-              ),
-            )
-          : _properties.isEmpty && !_isLoading
+              )
+              : _properties.isEmpty && !_isLoading
               ? const Center(
-                  child: Text('No hotels found for your search criteria.', style: TextStyle(fontSize: 18, color: Colors.grey)),
-                )
-              : ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.only(bottom: 20, top: 10),
-                  itemCount: _properties.length + (_hasMore || _isLoading ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == _properties.length) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Center(
-                          child: _isLoading 
-                            ? const CircularProgressIndicator(color: Colors.pink)
-                            : _hasMore ? null : const Text('End of Results', style: TextStyle(color: Colors.grey)),
-                        ),
-                      );
-                    }
-                    return PropertyCard(property: _properties[index]);
-                  },
+                child: Text(
+                  'No hotels found for your search criteria.',
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
                 ),
+              )
+              : ListView.separated(
+                controller: _scrollController,
+                padding: const EdgeInsets.only(bottom: 20, top: 10),
+                itemCount:
+                    _properties.length + (_hasMore || _isLoading ? 1 : 0),
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    height: 1,
+                    indent: width * 0.05,
+                    endIndent: width * 0.05,
+                  );
+                },
+                itemBuilder: (context, index) {
+                  if (index == _properties.length) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(
+                        child:
+                            _isLoading
+                                ? const CircularProgressIndicator(
+                                  color: Colors.pink,
+                                )
+                                : _hasMore
+                                ? null
+                                : const Text(
+                                  'End of Results',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                      ),
+                    );
+                  }
+                  return PropertyCard(property: _properties[index]);
+                },
+              ),
     );
   }
 }

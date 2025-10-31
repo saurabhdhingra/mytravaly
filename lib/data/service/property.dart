@@ -110,7 +110,7 @@ class PropertyService {
   }
 
   // Method to fetch Search Results
-Future<List<Property>> getSearchResultListOfHotels(
+  Future<List<Property>> getSearchResultListOfHotels(
     SearchQueryData queryData,
     String visitorToken,
   ) async {
@@ -122,7 +122,7 @@ Future<List<Property>> getSearchResultListOfHotels(
     try {
       final response = await CustomNetworkUtility.post(
         // Replace with your actual baseUrl() implementation
-        baseUrl(), 
+        baseUrl(),
         payload,
         visitorToken,
       );
@@ -135,24 +135,27 @@ Future<List<Property>> getSearchResultListOfHotels(
         if (jsonResponse['status'] == true &&
             jsonResponse['data'] != null &&
             jsonResponse['data']['arrayOfHotelList'] is List) {
-          
-          debugPrint("Checkpoint 3: Data structure validated. Starting mapping.");
-          
-          // Log the raw data if needed, but the error source (printing the Map 'item') is removed.
-          // log(response.body); 
+          debugPrint(
+            "Checkpoint 3: Data structure validated. Starting mapping.",
+          );
+   
 
-          final List<Property> hotelList = (jsonResponse['data']['arrayOfHotelList'] as List)
-              .map((item) {
+          // Log the raw data if needed, but the error source (printing the Map 'item') is removed.
+          log(response.body);
+
+          final List<Property> hotelList =
+              (jsonResponse['data']['arrayOfHotelList'] as List).map((item) {
                 // Safely cast item to the expected Map<String, dynamic> for fromJson
                 debugPrint("Checkpoint 4 : Inside the map function.");
-                final Map<String, dynamic> propertyJson = item as Map<String, dynamic>;
+                final Map<String, dynamic> propertyJson =
+                    item as Map<String, dynamic>;
                 return Property.fromJson(propertyJson);
-              })
-              .toList();
-          
-          debugPrint("Mapping complete. Returning list of ${hotelList.length} properties.");
-          return hotelList; // Return the correctly parsed list
+              }).toList();
 
+          debugPrint(
+            "Mapping complete. Returning list of ${hotelList.length} properties.",
+          );
+          return hotelList; // Return the correctly parsed list
         } else {
           throw Exception(
             jsonResponse['message'] ??
